@@ -8,7 +8,16 @@ import (
 )
 
 type helloWorldResponse struct {
-	Message string
+	Message string `json:"message"`
+
+	//do not output this field
+	Author string `json:"-"`
+
+	//do not output this field if the value is empty
+	Date string `json:",omitempty"`
+
+	//convert output to a string and rename id
+	Id int `json:"id, string"`
 }
 
 func main() {
@@ -21,10 +30,12 @@ func main() {
 }
 
 func helloworldhandler(w http.ResponseWriter, r *http.Request) {
-	response := helloWorldResponse{Message: "HelloWorld"}
-	data, err := json.Marshal(response)
+	response := helloWorldResponse{Message: "HelloWorld", Date: "2021-03-07"}
+	encoder := json.NewEncoder(w)
+	encoder.Encode(&response)
+	/*data, err := json.Marshal(response)
 	if err != nil {
 		panic("Ooooops")
 	}
-	fmt.Fprint(w, string(data))
+	fmt.Fprint(w, string(data))*/
 }
