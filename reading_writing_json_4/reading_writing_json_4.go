@@ -29,7 +29,7 @@ func helloWorldHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Add("Content-Type", "application/json")
 
-	body, err := ioutil.ReadAll(r.Body)
+	body, err := ioutil.ReadAll(r.Body) //here is recommende to use json decoder
 
 	if err != nil {
 		http.Error(w, "Bad Request", http.StatusBadRequest)
