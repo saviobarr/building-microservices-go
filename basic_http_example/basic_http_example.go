@@ -30,6 +30,7 @@ func main() {
 }
 
 func helloworldhandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
 	response := helloWorldResponse{Message: "HelloWorld", Date: "2021-03-07"}
 	encoder := json.NewEncoder(w)
 	encoder.Encode(&response)
