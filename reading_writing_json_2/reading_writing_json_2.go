@@ -8,7 +8,18 @@ import (
 )
 
 type helloWorldResponse struct {
-	Message string
+
+	//change the output field to be "message"
+	Message string `json:"message"`
+
+	//do not output this field
+	Author string `json:"-"`
+
+	//do not output the field if the value is empty
+	Date string `json:",omitempty"`
+
+	//convert output to a string and rename id
+	Id int `json:"id,string"`
 }
 
 func main() {
