@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 type HelloWorldRequest struct {
@@ -15,24 +13,10 @@ type HelloWorldRequest struct {
 
 type helloWorldResponse struct {
 	Message string `json:"message"`
-
-	//do not output this field
-	Author string `json:"-"`
-
-	//do not output this field if the value is empty
-	Date string `json:",omitempty"`
-
-	//convert output to a string and rename id
-	Id int `json:"id, string"`
 }
 
 func main() {
 	port := 8080
-
-	r := mux.NewRouter()
-	r.HandleFunc("/helloword", helloWorldHandler).Methods("GET")
-
-	http.Handle("/", r)
 
 	http.HandleFunc("/helloworld", helloWorldHandler)
 	log.Printf("Server starting on port %v\n", 8080)

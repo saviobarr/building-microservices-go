@@ -14,22 +14,19 @@ type helloWorldRequest struct {
 
 type helloWorldResponse struct {
 	Message string `json:"message"`
+}
 
-	//do not output this field
-	Author string `json:"-"`
+func main() {
+	port := 8080
 
-	//do not output this field if the value is empty
-	Date string `json:",omitempty"`
+	http.HandleFunc("/helloworld", helloWorldHandler)
+	log.Printf("Server starting on port %v\n", 8080)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", port), nil))
 
-	//convert output to a string and rename id
-	Id int `json:"id, string"`
 }
 
 func helloWorldHandler(w http.ResponseWriter, r *http.Request) {
-
-	w.Header().Add("Content-Type", "application/json")
-
-	body, err := ioutil.ReadAll(r.Body) //here is recommende to use json decoder
+	body, err := ioutil.ReadAll(r.Body)
 
 	if err != nil {
 		http.Error(w, "Bad Request", http.StatusBadRequest)
@@ -37,6 +34,7 @@ func helloWorldHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var request helloWorldRequest
+
 	err = json.Unmarshal(body, &request)
 
 	if err != nil {
@@ -48,13 +46,5 @@ func helloWorldHandler(w http.ResponseWriter, r *http.Request) {
 
 	encoder := json.NewEncoder(w)
 	encoder.Encode(response)
-}
-
-func main() {
-	port := 8080
-
-	http.HandleFunc("/helloworld", helloWorldHandler)
-	log.Printf("Server starting on port %v\n", 8080)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", port), nil))
 
 }
